@@ -13,6 +13,7 @@ use App\Models\Product;
 use Carbon\Carbon;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ProductController extends Controller
 {
@@ -76,6 +77,12 @@ class ProductController extends Controller
     public function store(StoreRequest $request)
     {
         $data = $request->all();
+        $image = null;
+        if ($request->hasFile('image')) {
+            $image = time() . '-' . $data['description'] . '.' . $request->file('image')
+                    ->getClientOriginalExtension();
+            $request->file('image')->move('products', $image);
+        }
 
         DB::beginTransaction();
         try {
@@ -84,8 +91,8 @@ class ProductController extends Controller
                 'price' => $data['price'],
                 'code' => $data['code'],
                 'sale_price' => $data['sale_price'],
-                'image' => $data['image'],
-                'available' => $data['available'],
+                'image' => $image,
+                'available' => $data['available'] ?? null,
             ]);
 
             $productResource = new ProductResource($product);
@@ -136,7 +143,17 @@ class ProductController extends Controller
 
         DB::beginTransaction();
         try {
+
             tap($product)->update($data);
+
+            if ($request->hasFile('image')) {
+                @unlink('products' . $product->image);
+                $product->image = time() . '-' . $product->description . '.' . $request->file('image')
+                        ->getClientOriginalExtension();
+                $request->file('image')->move('products', $product->image);
+            }
+
+            $product->save();
 
             $productResource = new ProductResource($product);
 
