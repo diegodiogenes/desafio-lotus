@@ -31,7 +31,8 @@ Route::group(['middleware' => 'auth:api'], function () {
      */
     Route::apiResources([
         'users' => \App\Http\Controllers\UserController::class,
-        'products' => \App\Http\Controllers\ProductController::class
+        'products' => \App\Http\Controllers\ProductController::class,
+        'sales' => \App\Http\Controllers\SaleController::class
     ]);
 
 });

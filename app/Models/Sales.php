@@ -17,7 +17,8 @@ class Sales extends Model
      * @var string[]
      */
     protected $fillable = [
-        'amount'
+        'amount',
+        'profit'
     ];
 
     /**

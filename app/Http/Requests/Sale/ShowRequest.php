@@ -2,10 +2,13 @@
 
 namespace App\Http\Requests\Sale;
 
+use Alvarofpp\ExpandRequest\Traits\UrlParameters;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ShowRequest extends FormRequest
 {
+    use UrlParameters;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -13,7 +16,7 @@ class ShowRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +27,7 @@ class ShowRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'sales' => ['required', 'exists:sales,id',],
         ];
     }
 }

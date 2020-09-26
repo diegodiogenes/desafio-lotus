@@ -57,5 +57,19 @@ return [
             'success' => 'Product successfully deleted!',
             'error' => 'An error occurred during product removal.',
         ],
+    ],
+    'SaleController' => [
+        'update' => [
+            'success' => 'Sale updated successfully!',
+            'error' => 'An error occurred during the sale update.',
+        ],
+        'store' => [
+            'success' => 'Sale registered successfully!',
+            'error' => 'An error occurred during sale registration.',
+        ],
+        'destroy' => [
+            'success' => 'Sale successfully deleted!',
+            'error' => 'An error occurred during sale removal.',
+        ],
     ]
 ];
