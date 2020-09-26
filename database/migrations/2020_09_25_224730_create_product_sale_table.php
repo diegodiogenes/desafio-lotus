@@ -14,15 +14,14 @@ class CreateProductSaleTable extends Migration
     public function up()
     {
         Schema::create('product_sale', function (Blueprint $table) {
-            $table->id();
             $table->bigInteger('product_id')->unsigned();
-            $table->bigInteger('sale_id')->unsigned();
+            $table->bigInteger('sales_id')->unsigned();
             $table->foreign('product_id')
                 ->references('id')
                 ->on('products')
                 ->onUpdate('CASCADE')
                 ->onDelete('CASCADE');
-            $table->foreign('sale_id')
+            $table->foreign('sales_id')
                 ->references('id')
                 ->on('sales')
                 ->onUpdate('CASCADE')
