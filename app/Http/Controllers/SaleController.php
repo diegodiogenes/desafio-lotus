@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Sale\DestroyRequest;
+use App\Http\Requests\Sale\IndexRequest;
+use App\Http\Requests\Sale\ShowRequest;
 use App\Http\Requests\Sale\StoreRequest;
-use App\Http\Requests\UpdateRequest;
+use App\Http\Requests\Sale\UpdateRequest;
 use App\Http\Resources\SaleResource;
 use App\Models\Product;
 use App\Models\Sales;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 
@@ -22,19 +23,24 @@ class SaleController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param IndexRequest $request
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index()
+    public function index(IndexRequest $request)
     {
-        $sales = Sales::paginate();
+        $sales = Sales::orderBy('created_at');
 
-        return SaleResource::collection($sales);
+        if ($order = $request->get('order')) {
+            $sales = Sales::orderBy('created_at', $order);
+        }
+
+        return SaleResource::collection($sales->paginate());
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param StoreRequest $request
      * @return JsonResponse
      */
     public function store(StoreRequest $request)
@@ -45,9 +51,12 @@ class SaleController extends Controller
 
         DB::beginTransaction();
         try {
+
+            $profit = $products->sum('sale_price') - $products->sum('price');
+
             $sale = Sales::create([
                 'amount' => $products->sum('sale_price'),
-                'profit' => $products->sum('sale_price') - $products->sum('price')
+                'profit' => number_format($profit, 2)
             ]);
 
             $sale->products()->sync($products->pluck('id'));
@@ -73,10 +82,11 @@ class SaleController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param ShowRequest $request
+     * @param int $id
      * @return SaleResource
      */
-    public function show($id)
+    public function show(ShowRequest $request, $id)
     {
         $sale = Sales::findOrFail($id);
 

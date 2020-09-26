@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Http\Requests\Sale;
+namespace App\Http\Requests\Product;
 
 use Alvarofpp\ExpandRequest\Traits\UrlParameters;
 use Illuminate\Foundation\Http\FormRequest;
 
-class IndexRequest extends FormRequest
+class ReportRequest extends FormRequest
 {
     use UrlParameters;
-
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -28,6 +27,8 @@ class IndexRequest extends FormRequest
     {
         return [
             'order' => ['in:asc,desc',],
+            'from' => ['date_format:d/m/Y'],
+            'to' => ['date_format:d/m/Y']
         ];
     }
 }

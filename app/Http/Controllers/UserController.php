@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\DestroyRequest;
-use App\Http\Requests\UpdateRequest;
+use App\Http\Requests\User\DestroyRequest;
+use App\Http\Requests\User\UpdateRequest;
 use App\Http\Requests\User\IndexRequest;
 use App\Http\Requests\User\ShowRequest;
 use App\Http\Requests\User\StoreRequest;
@@ -63,7 +63,7 @@ class UserController extends Controller
             DB::rollBack();
             return $this->responseError([
                 'message' => trans('response.UserController.store.error'),
-                'exception' => $exception->getMessage(),
+                'errors' => $exception->getMessage(),
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -109,7 +109,7 @@ class UserController extends Controller
             DB::rollBack();
             return $this->responseError([
                 'message' => trans('response.UserController.update.error'),
-                'exception' => $exception->getMessage(),
+                'errors' => $exception->getMessage(),
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -133,9 +133,9 @@ class UserController extends Controller
             ]);
         } catch (\Exception $exception) {
             DB::rollBack();
-            return $this->responseErrorServer([
+            return $this->responseError([
                 'message' => trans('response.UserController.destroy.error'),
-                'exception' => $exception->getMessage(),
+                'errors' => $exception->getMessage(),
             ]);
         }
     }

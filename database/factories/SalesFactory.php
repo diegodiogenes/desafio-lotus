@@ -3,16 +3,17 @@
 namespace Database\Factories;
 
 use App\Models\Product;
+use App\Models\Sales;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ProductFactory extends Factory
+class SalesFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Product::class;
+    protected $model = Sales::class;
 
     /**
      * Define the model's default state.
@@ -22,11 +23,8 @@ class ProductFactory extends Factory
     public function definition()
     {
         return [
-            'description' => $this->faker->name,
-            'price' => $this->faker->numerify('##.##'),
-            'code' => $this->faker->numerify('#######'),
-            'available' => $this->faker->boolean(100),
-            'sale_price' => $this->faker->numerify('##.##')
+            'amount' => $this->faker->numerify('###.##'),
+            'profit' => $this->faker->numerify('###.##')
         ];
     }
 }

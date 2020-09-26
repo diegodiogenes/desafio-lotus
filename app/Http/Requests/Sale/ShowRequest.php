@@ -27,7 +27,7 @@ class ShowRequest extends FormRequest
     public function rules()
     {
         return [
-            'sales' => ['required', 'exists:sales,id',],
+            'sale' => ['required', 'exists:sales,id',],
         ];
     }
 }

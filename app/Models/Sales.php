@@ -22,6 +22,25 @@ class Sales extends Model
     ];
 
     /**
+     * Get price with money format.
+     *
+     * @return string
+     */
+    public function getAmountFormattedAttribute()
+    {
+        return 'R$ ' . number_format($this->amount, 2, ',', '.');
+    }
+
+    /**
+     * Get sale price with money format.
+     * @return string
+     */
+    public function getProfitFormattedAttribute()
+    {
+        return 'R$ ' . number_format($this->profit, 2, ',', '.');
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function products()

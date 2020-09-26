@@ -27,8 +27,16 @@ Route::group(['prefix' => 'auth',], function () {
 
 Route::group(['middleware' => 'auth:api'], function () {
     /*
-     * User
+     * Product Report
      */
+
+    Route::get('products/report', [\App\Http\Controllers\ProductController::class, 'reportProducts'])
+        ->name('products.report');
+
+    /*
+    * Resources Routes
+    */
+
     Route::apiResources([
         'users' => \App\Http\Controllers\UserController::class,
         'products' => \App\Http\Controllers\ProductController::class,

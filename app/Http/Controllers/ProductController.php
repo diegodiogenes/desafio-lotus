@@ -8,7 +8,9 @@ use App\Http\Requests\Product\ShowRequest;
 use App\Http\Requests\Product\StoreRequest;
 use App\Http\Requests\Product\UpdateRequest;
 use App\Http\Resources\ProductResource;
+use App\Http\Resources\ReportResource;
 use App\Models\Product;
+use Carbon\Carbon;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 
@@ -31,6 +33,38 @@ class ProductController extends Controller
         $products = $query->paginate();
 
         return ProductResource::collection($products);
+    }
+
+    /**
+     * Report of top or less sold products.
+     *
+     * @param IndexRequest $request
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function reportProducts(IndexRequest $request)
+    {
+        $from = Carbon::today()->addMonths(-3)->startOfMonth();
+        $to = Carbon::today()->endOfMonth();
+
+        if ($request->get('from')) {
+            $from = Carbon::createFromFormat('d/m/Y', $request->get('from'));
+        }
+
+        if ($request->get('to')) {
+            $to = Carbon::createFromFormat('d/m/Y', $request->get('to'));
+        }
+
+        $order = $request->get('order', 'desc');
+
+        $report = Product::whereHas(
+            'sales',
+            function ($q) use ($from, $to) {
+                $q->where('sales.created_at', '<=', $to->format('Y-m-d'));
+                $q->where('sales.created_at', '>=', $from->format('Y-m-d'));
+            }
+        )->withCount('sales')->orderBy('sales_count', $order)->take(10)->get();
+
+        return ReportResource::collection($report);
     }
 
     /**
@@ -67,7 +101,7 @@ class ProductController extends Controller
             DB::rollBack();
             return $this->responseError([
                 'message' => trans('response.ProductController.store.error'),
-                'exception' => $exception->getMessage(),
+                'errors' => $exception->getMessage(),
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
@@ -115,7 +149,7 @@ class ProductController extends Controller
             DB::rollBack();
             return $this->responseError([
                 'message' => trans('response.ProductController.update.error'),
-                'exception' => $exception->getMessage(),
+                'errors' => $exception->getMessage(),
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }

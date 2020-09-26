@@ -52,4 +52,12 @@ class Product extends Model
     {
         return $this->available ? 'Yes' : 'No';
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function sales()
+    {
+        return $this->belongsToMany(Sales::class,'product_sale');
+    }
 }

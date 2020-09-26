@@ -15,7 +15,7 @@ class SaleSeeder extends Seeder
      */
     public function run()
     {
-        $products = Product::factory(10)->create();
+        $products = Product::factory(3)->create();
 
         $sales = Sales::create([
             'amount' => $products->sum('sale_price'),
@@ -23,6 +23,5 @@ class SaleSeeder extends Seeder
         ]);
 
         $sales->products()->sync($products->pluck('id'));
-
     }
 }
