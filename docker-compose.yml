@@ -21,8 +21,8 @@ services:
   lotus-web:
     image: centraldofretecom/ambientum-php:7.3-nginx
     volumes:
-      - .:/var/www/app
-      - .env:/var/www/app/.env
+      - ./lotus:/var/www/app
+      - ./lotus/.env:/var/www/app/.env
     ports:
       - "8010:8080"
     environment:
