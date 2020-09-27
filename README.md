@@ -72,3 +72,10 @@ Foram criados um total de 11 rotas, sendo elas:
   - Atualizar: `[PUT] api/products/:id`
   - Ver: `[PUT] api/products/:id`
   - Apagar: `[DELETE] api/products/:id`
+  - Relatório: `[GET] api/products/report/`
+- Vendas
+  - Listar: `[GET] api/sales`
+  - Registrar: `[POST] api/sales`
+  - Atualizar: `[PUT] api/sales/:id`
+  - Ver: `[PUT] api/sales/:id`
+  - Apagar: `[DELETE] api/sales/:id`
