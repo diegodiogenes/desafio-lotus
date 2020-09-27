@@ -26,7 +26,7 @@ class UpdateRequest extends FormRequest
         return [
             'price' => ['numeric',],
             'sale_price' => ['numeric'],
-            'products' => ['required', 'array', 'exists:products,id',]
+            'products' => ['array', 'exists:products,id',]
         ];
     }
 }
