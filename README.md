@@ -56,7 +56,7 @@ Os dados criados podem ser acessados através dos seeds do projeto.
 
 ## Rotas
 
-Foram criados um total de 11 rotas, sendo elas:
+Foram criados um total de 18 rotas, sendo elas:
 - Auth
   - Login: `[POST] /api/auth/login/`
   - Logout: `[GET] /api/auth/logout/`
