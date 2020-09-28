@@ -56,6 +56,8 @@ Os dados criados podem ser acessados através dos seeds do projeto.
 
 ## Rotas
 
+Para a documentação completa das rotas e envios, acesse a [doc](doc/routes.md) do projeto.
+
 Foram criados um total de 18 rotas, sendo elas:
 - Auth
   - Login: `[POST] /api/auth/login/`
